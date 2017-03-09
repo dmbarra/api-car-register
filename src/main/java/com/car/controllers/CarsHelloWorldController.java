@@ -1,7 +1,13 @@
 package com.car.controllers;
 
-/**
- * Created by hrodrigu on 09/03/17.
- */
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class CarsHelloWorldController {
+
+    @RequestMapping("/")
+    public String index() {
+        return "Oi Henrique";
+    }
 }
