@@ -4,5 +4,5 @@ jdk:
 deploy:
   provider: heroku
   api_key:
-    secure: heroku_key
+    secure: $HEROKU_KEY
   app: cars-api-register
