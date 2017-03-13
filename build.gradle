@@ -45,6 +45,8 @@ task cucumber() {
 	}
 }
 
+check.dependsOn cucumber
+
 test {
 	useTestNG() {
 	}
