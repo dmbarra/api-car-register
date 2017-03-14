@@ -7,14 +7,20 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.owasp:dependency-check-gradle:1.4.5")
 	}
 }
+
+defaultTasks 'clean', 'test', 'build'
 
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+
+apply plugin: 'checkstyle'
+apply plugin: 'org.owasp.dependencycheck'
 
 jar {
 	baseName = 'car-api'
@@ -43,6 +49,12 @@ task cucumber() {
 			args = ['-f', 'pretty', '--glue', 'src/test/groovy/component/steps', 'src/test/resources/features']
 		}
 	}
+}
+
+dependencyCheck {
+	autoUpdate=false
+	cveValidForHours=1
+	format='ALL'
 }
 
 check.dependsOn cucumber

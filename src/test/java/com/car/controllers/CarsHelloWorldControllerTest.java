@@ -10,12 +10,12 @@ public class CarsHelloWorldControllerTest {
     CarsHelloWorldController carsHelloWorldController;
 
     @BeforeClass
-    public void setUP(){
+    public void setUP() {
         carsHelloWorldController = new CarsHelloWorldController();
     }
 
     @Test
-    public void shouldReturnHelloHenrique(){
+    public void shouldReturnHelloHenrique() {
         String response = carsHelloWorldController.index();
 
         assertThat(response).isEqualTo("Oi Henrique");
