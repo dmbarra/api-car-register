@@ -12,4 +12,7 @@ Verifica teste unitarios, testes de componente e verifica indentação
 **Para verificar as dependencias**<br> 
 _'./gradlew dependencyCheck'_
 
+**Para iniciar database**<br>
+_'docker-compose run database'_
+
 [Visit API!](https://cars-api-register.herokuapp.com)

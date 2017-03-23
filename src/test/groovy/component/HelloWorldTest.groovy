@@ -20,11 +20,11 @@ class HelloWorldTest extends Specification {
         // TODO: print the field value to the standard output
 
         when:('I access the service')
-        def entity = restTemplate.getForEntity('/', String.class)
+          def entity = restTemplate.getForEntity('/', String.class)
 
         then:('I show message: Oi Henrique!')
-        entity.statusCode == HttpStatus.OK
-        entity.body == 'Oi Henrique'
+          entity.statusCode == HttpStatus.OK
+          entity.body == 'Oi Henrique'
     }
 }
 

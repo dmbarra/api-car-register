@@ -1,7 +1,12 @@
 version: "2"
 services:
   database:
-    image: postgres:9.5.4
+    image: postgres:9.5.6
     ports:
-      - '5432:5432'
+      - '0.0.0.0:5432:5432'
     container_name: postgres_car_register
+    environment:
+        POSTGRES_DB: 'carsapi'
+        POSTGRES_USER: 'postgres'
+        POSTGRES_PASSWORD: 'postgres@123'
+        POSTGRES_PORT: '5432'
