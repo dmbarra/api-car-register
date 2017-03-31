@@ -8,15 +8,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Getter
 @Entity
-@Table(schema = "car_schema")
+@Table(name = "car_register", schema = "car_schema")
 public class CarRegister {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car_register_id_seq")
+    @SequenceGenerator(name = "car_register_id_seq",
+            sequenceName = "car_schema.car_register_id_seq",
+            allocationSize = 1)
     private Long id;
     private String model;
     private String year;

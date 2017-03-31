@@ -5,18 +5,18 @@ import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CarsHelloWorldControllerTest {
+public class CarHelloWorldControllerTest {
 
-    CarsHelloWorldController carsHelloWorldController;
+    CarHelloWorldController carHelloWorldController;
 
     @BeforeClass
     public void setUP() {
-        carsHelloWorldController = new CarsHelloWorldController();
+        carHelloWorldController = new CarHelloWorldController();
     }
 
     @Test
     public void shouldReturnHelloHenrique() {
-        String response = carsHelloWorldController.index();
+        String response = carHelloWorldController.index();
 
         assertThat(response).isEqualTo("Oi Henrique");
     }

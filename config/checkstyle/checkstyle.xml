@@ -17,12 +17,12 @@
         <module name="ConstantName"/>
         <module name="EmptyBlock"/>
         <module name="LineLength">
-            <property name="max" value="80"/>
+            <property name="max" value="100"/>
             <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
         </module>
         <module name="NeedBraces"/>
         <module name="LeftCurly">
-            <property name="maxLineLength" value="80"/>
+            <property name="maxLineLength" value="100"/>
         </module>
         <module name="RightCurly"/>
         <module name="RightCurly">

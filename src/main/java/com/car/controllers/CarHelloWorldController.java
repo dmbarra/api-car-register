@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CarsHelloWorldController {
+public class CarHelloWorldController {
 
     @RequestMapping("/")
     public String index() {

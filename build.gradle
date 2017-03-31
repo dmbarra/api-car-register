@@ -64,12 +64,17 @@ dependencies {
 
 	compile('org.postgresql:postgresql:42.0.0')
 	compile('commons-dbcp:commons-dbcp:1.4')
+	compile('com.h2database:h2:1.4.194')
+
+	compile('org.json:json:20160810')
 
 	testCompile('org.assertj:assertj-core:3.6.2')
 	testCompile('org.testng:testng:6.9.13.6')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.spockframework:spock-spring:1.1-groovy-2.4-rc-3')
 	testCompile('org.spockframework:spock-core:1.1-groovy-2.4-rc-3')
+
+
 
 }
 
