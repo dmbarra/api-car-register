@@ -1,5 +1,4 @@
-DROP SCHEMA IF EXISTS 'car_schema';
-CREATE SCHEMA 'car_schema';
+CREATE SCHEMA "car_schema";
 
 CREATE TABLE 'car_schema'.'cars' (
   id                  SERIAL PRIMARY KEY,
@@ -9,4 +8,4 @@ CREATE TABLE 'car_schema'.'cars' (
   category            VARCHAR
 );
 
-INSERT INTO 'car_schema'.'cars' VALUES ();
+CREATE SEQUENCE car_register_id_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
