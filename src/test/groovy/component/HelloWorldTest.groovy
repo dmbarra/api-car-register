@@ -1,6 +1,7 @@
 import com.car.CarsApi
 import com.car.models.CarBodyModel
 import com.car.models.EnunCarCategory
+import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootContextLoader
 import org.springframework.boot.test.context.SpringBootTest
@@ -10,7 +11,6 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
-import spock.lang.Ignore
 import spock.lang.Specification
 
 @ContextConfiguration(classes = CarsApi.class,
@@ -33,7 +33,7 @@ class HelloWorldTest extends Specification {
           entity.body == 'Oi Henrique'
     }
 
-    @Ignore
+    @Test
     def 'should return status created when created new register'() {
         given:('I have a new car for Register ')
         def carBodyModel = CarBodyModel

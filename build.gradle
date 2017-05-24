@@ -64,7 +64,7 @@ dependencies {
 
 	compile('org.postgresql:postgresql:42.0.0')
 	compile('commons-dbcp:commons-dbcp:1.4')
-	compile('com.h2database:h2:1.4.194')
+	compile group: 'com.h2database', name: 'h2', version: '1.4.195'
 
 	compile('org.json:json:20160810')
 
