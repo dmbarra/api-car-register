@@ -30,4 +30,22 @@ public class CarService {
                 .concat("id:")
                 .concat(carRegisterDb.getId().toString()), HttpStatus.CREATED);
     }
+
+    public ResponseEntity<String> upadateCar(String carId, CarBodyModel carBodyModel) {
+
+        if (carRepository.findOne(Long.parseLong(carId)) == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+
+            CarRegister carUpdated = new CarRegister(Long.parseLong(carId), carBodyModel.getModel(),
+                    carBodyModel.getYear(),
+                    carBodyModel.getCollor(),
+                    carBodyModel.getCategory());
+
+            carRepository.save(carUpdated);
+
+            return new ResponseEntity<>(new String(), HttpStatus.NO_CONTENT);
+        }
+    }
 }

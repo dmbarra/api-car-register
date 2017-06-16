@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -48,6 +49,31 @@ public class CarPostControllerTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(responseEntity.getBody()).isEqualTo("{ id = 123 }");
+
+        assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("branco");
+        assertThat(argumentCaptor.getValue().getModel()).isEqualTo("gol");
+        assertThat(argumentCaptor.getValue().getYear()).isEqualTo("1999");
+        assertThat(argumentCaptor.getValue().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+    }
+
+    @Test
+    public void shouldReturnSucessWhenUpdatedCar() {
+        CarBodyModel carBodyModel = CarBodyModel.builder()
+                .collor("branco")
+                .model("gol")
+                .year("1999")
+                .category(EnunCarCategory.COMPACT)
+                .build();
+
+        ArgumentCaptor<CarBodyModel> argumentCaptor = ArgumentCaptor.forClass(CarBodyModel.class);
+        when(carService.upadateCar(anyString(), argumentCaptor.capture()))
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
+
+        ResponseEntity<String> responseEntity = carPostController.carsUpdate("1", carBodyModel);
+
+        verify(carService, times(1)).upadateCar("1", carBodyModel);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("branco");
         assertThat(argumentCaptor.getValue().getModel()).isEqualTo("gol");
