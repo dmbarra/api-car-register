@@ -5,6 +5,7 @@ import com.car.models.EnunCarCategory;
 import com.car.models.response.CarModelResponse;
 import com.car.service.CarService;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CarControllerTest {
 
-
     @Mock
     private CarService carService;
 
+    @InjectMocks
     private CarController carController;
 
     @BeforeClass
     public void setUp() {
         initMocks(this);
-        carController = new CarController(carService);
     }
 
     @Test
@@ -51,10 +51,7 @@ public class CarControllerTest {
 
         assertThat(responseEntity.getBody()).isEqualTo("{id:123}");
 
-        assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("branco");
-        assertThat(argumentCaptor.getValue().getModel()).isEqualTo("gol");
-        assertThat(argumentCaptor.getValue().getYear()).isEqualTo("1999");
-        assertThat(argumentCaptor.getValue().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+        assertThat(argumentCaptor.getValue()).isEqualToComparingFieldByField(carBodyModel);
     }
 
     @Test
@@ -80,10 +77,8 @@ public class CarControllerTest {
 
         verify(carService, times(1)).getCarInformation("1");
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody().getCollor()).isEqualTo("branco");
-        assertThat(responseEntity.getBody().getModel()).isEqualTo("gol");
-        assertThat(responseEntity.getBody().getYear()).isEqualTo("1999");
-        assertThat(responseEntity.getBody().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+
+        assertThat(responseEntity.getBody()).isEqualToComparingFieldByField(value);
     }
 
     @Test
@@ -97,10 +92,7 @@ public class CarControllerTest {
 
         verify(carService, times(1)).getCarsInformation();
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody().get(0).getCollor()).isEqualTo("branco");
-        assertThat(responseEntity.getBody().get(0).getModel()).isEqualTo("gol");
-        assertThat(responseEntity.getBody().get(0).getYear()).isEqualTo("1999");
-        assertThat(responseEntity.getBody().get(0).getCategory())
-                .isEqualTo(EnunCarCategory.COMPACT);
+
+        assertThat(responseEntity.getBody().get(0)).isEqualToComparingFieldByField(value);
     }
 }

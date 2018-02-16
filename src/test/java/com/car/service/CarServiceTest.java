@@ -73,7 +73,6 @@ public class CarServiceTest {
         CarBodyModel carBodyModel =
                 new CarBodyModel("fiat", "1999", "preto", EnunCarCategory.COMPACT);
 
-
         carService.upadateCar(carId, carBodyModel);
 
         verify(carRepository, times(1)).findOne(Long.parseLong(carId));
@@ -107,11 +106,7 @@ public class CarServiceTest {
 
         verify(carRepository, times(1)).findOne(Long.parseLong(carId));
 
-        assertThat(carModelResponse.getYear()).isEqualTo("branco");
-        assertThat(carModelResponse.getCollor()).isEqualTo("1999");
-        assertThat(carModelResponse.getModel()).isEqualTo("gol");
-        assertThat(carModelResponse.getCategory()).isEqualTo(EnunCarCategory.COMPACT);
-
+        assertThat(carModelResponse).isEqualToComparingFieldByField(carRegister);
     }
 
     @Test(expectedExceptions = CarException.class)
@@ -132,10 +127,6 @@ public class CarServiceTest {
 
         verify(carRepository, times(1)).findAll();
 
-        assertThat(carModelResponse.get(0).getYear()).isEqualTo("branco");
-        assertThat(carModelResponse.get(0).getCollor()).isEqualTo("1999");
-        assertThat(carModelResponse.get(0).getModel()).isEqualTo("gol");
-        assertThat(carModelResponse.get(0).getCategory()).isEqualTo(EnunCarCategory.COMPACT);
-
+        assertThat(carModelResponse.get(0)).isEqualToComparingFieldByField(carRegister);
     }
 }
