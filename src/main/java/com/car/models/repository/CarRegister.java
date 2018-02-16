@@ -1,6 +1,7 @@
 package com.car.models.repository;
 
 
+import com.car.models.CarBodyModel;
 import com.car.models.EnunCarCategory;
 import lombok.Getter;
 
@@ -47,4 +48,10 @@ public class CarRegister {
         this.category = category;
     }
 
+    public CarRegister(CarBodyModel carBodyModel) {
+        this.collor = carBodyModel.getCollor();
+        this.model = carBodyModel.getModel();
+        this.category = carBodyModel.getCategory();
+        this.year = carBodyModel.getYear();
+    }
 }

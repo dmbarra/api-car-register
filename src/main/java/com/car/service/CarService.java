@@ -25,10 +25,7 @@ public class CarService {
     }
 
     public Long registerNewCar(CarBodyModel carBodyModel) {
-        CarRegister carRegister = new CarRegister(carBodyModel.getModel(),
-                carBodyModel.getYear(),
-                carBodyModel.getCollor(),
-                carBodyModel.getCategory());
+        CarRegister carRegister = new CarRegister(carBodyModel);
 
         CarRegister carRegisterDb = carRepository.save(carRegister);
         return carRegisterDb.getId();
