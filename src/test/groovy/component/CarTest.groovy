@@ -32,21 +32,14 @@ class CarTest extends Specification{
     @Test
     def 'should return status created when created new register'() {
         given:('I have a new car for Register ')
-        def carBodyModel = CarBodyModel
-                .builder()
-                .collor("branco")
-                .year("1999")
-                .model("gol")
-                .category(EnunCarCategory.PICKUP)
-                .build()
-                .toJson()
+        def carBodyModel = new CarBodyModel("gol", "1999", "branco", EnunCarCategory.PICKUP)
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<String>(carBodyModel.toString(),headers);
+        HttpHeaders headers = new HttpHeaders()
+        headers.setContentType(MediaType.APPLICATION_JSON)
+        HttpEntity<CarBodyModel> entity = new HttpEntity<CarBodyModel>(carBodyModel, headers)
 
         when:('I send new car information')
-        def response = restTemplate.exchange('/car', HttpMethod.POST, entity, String.class)
+        def response = restTemplate.postForEntity('/car', entity, String.class)
 
         then:('I show the status created and id of data base')
         response.statusCode == HttpStatus.CREATED
@@ -57,24 +50,18 @@ class CarTest extends Specification{
     @Test
     def 'should return status no content when update register'() {
         given:('I have a car registed')
-        def carRegister = new CarRegister("gol", "branco", "1999", EnunCarCategory.PICKUP);
-        carRepository.save(carRegister);
+        def carRegister = new CarRegister("gol", "branco", "1999", EnunCarCategory.PICKUP)
+        carRepository.save(carRegister)
 
         when:('I send car for update information')
 
-        def carBodyModel = CarBodyModel
-                .builder()
-                .collor("preto")
-                .year("1999")
-                .model("fiat")
-                .category(EnunCarCategory.PICKUP)
-                .build()
-                .toJson()
+        def carBodyModel = new CarBodyModel("fiat", "1999", "preto", EnunCarCategory.PICKUP)
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> entity = new HttpEntity<String>(carBodyModel.toString(),headers);
+        HttpHeaders headers = new HttpHeaders()
+        headers.setContentType(MediaType.APPLICATION_JSON)
+
+        HttpEntity<CarBodyModel> entity = new HttpEntity<CarBodyModel>(carBodyModel, headers)
         def response = restTemplate.exchange('/car/1', HttpMethod.PUT, entity, String.class)
 
         then:('I show the status no content')
@@ -87,19 +74,12 @@ class CarTest extends Specification{
 
         when:('I send car for update information')
 
-        def carBodyModel = CarBodyModel
-                .builder()
-                .collor("preto")
-                .year("1999")
-                .model("fiat")
-                .category(EnunCarCategory.PICKUP)
-                .build()
-                .toJson()
+        def carBodyModel = new CarBodyModel("fiat", "1999", "preto", EnunCarCategory.PICKUP)
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> entity = new HttpEntity<String>(carBodyModel.toString(),headers);
+        HttpEntity<CarBodyModel> entity = new HttpEntity<CarBodyModel>(carBodyModel, headers);
         def response = restTemplate.exchange('/car/223', HttpMethod.PUT, entity, String.class)
 
         then:('I show the status bad reuquest')

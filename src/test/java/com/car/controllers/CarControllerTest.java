@@ -7,10 +7,10 @@ import com.car.service.CarService;
 import groovy.lang.Singleton;
 import org.hibernate.mapping.Collection;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
@@ -18,32 +18,20 @@ import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.Mockito.*;
 
 public class CarControllerTest {
 
-    private CarController carController;
 
     @Mock
     private CarService carService;
 
-    @BeforeClass
-    public void setUp() {
-        initMocks(this);
-        carController = new CarController(carService);
-    }
+    @InjectMocks
+    private CarController carController;
 
     @Test
     public void shouldReturnSucessWhenCreateNewCar() {
-        CarBodyModel carBodyModel = CarBodyModel.builder()
-                .collor("branco")
-                .model("gol")
-                .year("1999")
-                .category(EnunCarCategory.COMPACT)
-                .build();
+        CarBodyModel carBodyModel = new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
 
         ArgumentCaptor<CarBodyModel> argumentCaptor = ArgumentCaptor.forClass(CarBodyModel.class);
         when(carService.registerNewCar(argumentCaptor.capture()))
@@ -64,12 +52,8 @@ public class CarControllerTest {
 
     @Test
     public void shouldReturnSucessWhenUpdatedCar() {
-        CarBodyModel carBodyModel = CarBodyModel.builder()
-                .collor("branco")
-                .model("gol")
-                .year("1999")
-                .category(EnunCarCategory.COMPACT)
-                .build();
+
+        CarBodyModel carBodyModel = new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
 
         ArgumentCaptor<CarBodyModel> argumentCaptor = ArgumentCaptor.forClass(CarBodyModel.class);
         when(carService.upadateCar(anyString(), argumentCaptor.capture()))

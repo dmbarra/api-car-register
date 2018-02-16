@@ -45,13 +45,7 @@ public class CarServiceTest {
         when(carRepository.save(argumentCaptor.capture()))
                 .thenReturn(carRegister);
 
-        CarBodyModel carBodyModel = CarBodyModel
-                .builder()
-                .model("gol")
-                .collor("branco")
-                .year("1999")
-                .category(EnunCarCategory.COMPACT)
-                .build();
+        CarBodyModel carBodyModel = new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
 
         ResponseEntity<String> responseEntity = carService.registerNewCar(carBodyModel);
 
@@ -76,13 +70,7 @@ public class CarServiceTest {
 
         when(carRepository.findOne(Long.parseLong(carId))).thenReturn(carRegister);
 
-        CarBodyModel carBodyModel = CarBodyModel
-                .builder()
-                .model("fiat")
-                .collor("preto")
-                .year("1999")
-                .category(EnunCarCategory.COMPACT)
-                .build();
+        CarBodyModel carBodyModel = new CarBodyModel("fiat", "1999", "preto", EnunCarCategory.COMPACT);
 
 
         ResponseEntity<String> responseEntity = carService.upadateCar(carId, carBodyModel);

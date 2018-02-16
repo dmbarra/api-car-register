@@ -1,10 +1,7 @@
 package com.car.models;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
-import org.json.JSONObject;
 
 
 @Getter
@@ -27,9 +24,5 @@ public class CarBodyModel {
     }
 
     public CarBodyModel() {
-    }
-
-    public JSONObject toJson() throws JsonProcessingException {
-        return new JSONObject(new ObjectMapper().writeValueAsString(this));
     }
 }
