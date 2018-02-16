@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class CarController {
 
-    CarService carService;
+    private CarService carService;
 
     @Autowired
     public CarController(CarService carService) {
@@ -23,15 +23,14 @@ public class CarController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/car", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/car", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> carsCreation(@RequestBody CarBodyModel carBodyModel) {
         Long result = carService.registerNewCar(carBodyModel);
        return transformIntoEntity(result, HttpStatus.CREATED);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/car/{carId}", method = RequestMethod.PUT)
+    @PutMapping(value = "/car/{carId}")
     public ResponseEntity<String> carsUpdate(@PathVariable String carId,
                                              @RequestBody CarBodyModel carBodyModel) {
         carService.upadateCar(carId, carBodyModel);
@@ -39,15 +38,13 @@ public class CarController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/car/{carId}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/car/{carId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarModelResponse> carsReturnSingleCar(@PathVariable String carId) {
         return carService.getCarInformation(carId).transformResponseEntuty(HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/car/", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping(value = "/car/", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<List<CarModelResponse>> carsReturnAllCars() {
         return new ResponseEntity<>(carService.getCarsInformation(), HttpStatus.OK);
     }
