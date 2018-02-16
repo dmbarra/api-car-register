@@ -1,6 +1,7 @@
 package com.car.controllers;
 
 import com.car.models.CarBodyModel;
+import com.car.models.response.CarModelResponse;
 import com.car.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,5 +29,9 @@ public class CarController {
     public ResponseEntity<String> carsUpdate(@PathVariable String carId,
                                              @RequestBody CarBodyModel carBodyModel) {
         return carService.upadateCar(carId, carBodyModel);
+    }
+
+    public ResponseEntity<CarModelResponse> carsReturnSingleCar(String carId) {
+        return carService.getCarInformation(carId).transformResponseEntuty(HttpStatus.OK);
     }
 }

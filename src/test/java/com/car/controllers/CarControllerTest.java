@@ -2,6 +2,7 @@ package com.car.controllers;
 
 import com.car.models.CarBodyModel;
 import com.car.models.EnunCarCategory;
+import com.car.models.response.CarModelResponse;
 import com.car.service.CarService;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -79,5 +80,24 @@ public class CarControllerTest {
         assertThat(argumentCaptor.getValue().getModel()).isEqualTo("gol");
         assertThat(argumentCaptor.getValue().getYear()).isEqualTo("1999");
         assertThat(argumentCaptor.getValue().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+    }
+
+    @Test
+    public void shouldReturnInformationAboutCar() {
+        CarModelResponse value =
+                new CarModelResponse("gol","1999","branco",EnunCarCategory.COMPACT);
+
+        when(carService.getCarInformation(anyString())).thenReturn(value);
+
+        ResponseEntity<CarModelResponse> responseEntity = carController.carsReturnSingleCar("1" );
+
+        verify(carService, times(1)).getCarInformation("1");
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody().getCollor()).isEqualTo("branco");
+        assertThat(responseEntity.getBody().getModel()).isEqualTo("gol");
+        assertThat(responseEntity.getBody().getYear()).isEqualTo("1999");
+        assertThat(responseEntity.getBody().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+
     }
 }

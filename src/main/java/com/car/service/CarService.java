@@ -2,6 +2,7 @@ package com.car.service;
 
 import com.car.models.CarBodyModel;
 import com.car.models.repository.CarRegister;
+import com.car.models.response.CarModelResponse;
 import com.car.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,5 +48,9 @@ public class CarService {
 
             return new ResponseEntity<>(new String(), HttpStatus.NO_CONTENT);
         }
+    }
+
+    public CarModelResponse getCarInformation(String s) {
+        return new CarModelResponse();
     }
 }
