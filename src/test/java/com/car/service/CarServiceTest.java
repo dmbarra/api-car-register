@@ -45,14 +45,14 @@ public class CarServiceTest {
         when(carRepository.save(argumentCaptor.capture()))
                 .thenReturn(carRegister);
 
-        CarBodyModel carBodyModel = new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
+        CarBodyModel carBodyModel =
+                new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
 
-        ResponseEntity<String> responseEntity = carService.registerNewCar(carBodyModel);
+        Long responseEntity = carService.registerNewCar(carBodyModel);
 
         verify(carRepository, times(1)).save(argumentCaptor.capture());
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(responseEntity.getBody()).contains("id:1");
+        assertThat(responseEntity).isEqualTo(1L);
 
         assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("branco");
         assertThat(argumentCaptor.getValue().getModel()).isEqualTo("gol");
@@ -70,7 +70,8 @@ public class CarServiceTest {
 
         when(carRepository.findOne(Long.parseLong(carId))).thenReturn(carRegister);
 
-        CarBodyModel carBodyModel = new CarBodyModel("fiat", "1999", "preto", EnunCarCategory.COMPACT);
+        CarBodyModel carBodyModel =
+                new CarBodyModel("fiat", "1999", "preto", EnunCarCategory.COMPACT);
 
 
         ResponseEntity<String> responseEntity = carService.upadateCar(carId, carBodyModel);

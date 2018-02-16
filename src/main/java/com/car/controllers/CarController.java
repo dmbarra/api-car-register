@@ -5,6 +5,7 @@ import com.car.models.response.CarModelResponse;
 import com.car.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +22,11 @@ public class CarController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/car", method = RequestMethod.POST)
+    @RequestMapping(value = "/car", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> carsCreation(@RequestBody CarBodyModel carBodyModel) {
-       return carService.registerNewCar(carBodyModel);
+        Long result = carService.registerNewCar(carBodyModel);
+       return transformIntoEntity(result, HttpStatus.CREATED);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -34,14 +37,24 @@ public class CarController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/car/{carId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/car/{carId}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarModelResponse> carsReturnSingleCar(@PathVariable String carId) {
         return carService.getCarInformation(carId).transformResponseEntuty(HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/car/", method = RequestMethod.GET)
+    @RequestMapping(value = "/car/", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<List<CarModelResponse>> carsReturnAllCars() {
         return new ResponseEntity<>(carService.getCarsInformation(), HttpStatus.OK);
+    }
+
+    private ResponseEntity<String> transformIntoEntity(Long result, HttpStatus status) {
+        return new ResponseEntity<>(new String()
+                .concat("{")
+                .concat("id:")
+                .concat(result.toString()
+                .concat("}")), status);
     }
 }

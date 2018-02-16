@@ -24,17 +24,14 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public ResponseEntity<String> registerNewCar(CarBodyModel carBodyModel) {
+    public Long registerNewCar(CarBodyModel carBodyModel) {
         CarRegister carRegister = new CarRegister(carBodyModel.getModel(),
                 carBodyModel.getYear(),
                 carBodyModel.getCollor(),
                 carBodyModel.getCategory());
 
         CarRegister carRegisterDb = carRepository.save(carRegister);
-
-        return new ResponseEntity<>(new String()
-                .concat("id:")
-                .concat(carRegisterDb.getId().toString()), HttpStatus.CREATED);
+        return carRegisterDb.getId();
     }
 
     public ResponseEntity<String> upadateCar(String carId, CarBodyModel carBodyModel) {

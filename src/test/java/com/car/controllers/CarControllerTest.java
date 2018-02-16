@@ -4,13 +4,11 @@ import com.car.models.CarBodyModel;
 import com.car.models.EnunCarCategory;
 import com.car.models.response.CarModelResponse;
 import com.car.service.CarService;
-import groovy.lang.Singleton;
-import org.hibernate.mapping.Collection;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
@@ -19,6 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CarControllerTest {
 
@@ -26,23 +25,31 @@ public class CarControllerTest {
     @Mock
     private CarService carService;
 
-    @InjectMocks
     private CarController carController;
+
+    @BeforeClass
+    public void setUp() {
+        initMocks(this);
+        carController = new CarController(carService);
+    }
 
     @Test
     public void shouldReturnSucessWhenCreateNewCar() {
-        CarBodyModel carBodyModel = new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
+        CarBodyModel carBodyModel =
+                new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
 
         ArgumentCaptor<CarBodyModel> argumentCaptor = ArgumentCaptor.forClass(CarBodyModel.class);
         when(carService.registerNewCar(argumentCaptor.capture()))
-                .thenReturn(new ResponseEntity<>("{ id = 123 }", HttpStatus.CREATED));
+                .thenReturn(123L);
 
         ResponseEntity<String> responseEntity = carController.carsCreation(carBodyModel);
 
         verify(carService, times(1)).registerNewCar(carBodyModel);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(responseEntity.getBody()).isEqualTo("{ id = 123 }");
+
+
+        assertThat(responseEntity.getBody()).isEqualTo("{id:123}");
 
         assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("branco");
         assertThat(argumentCaptor.getValue().getModel()).isEqualTo("gol");
@@ -52,8 +59,8 @@ public class CarControllerTest {
 
     @Test
     public void shouldReturnSucessWhenUpdatedCar() {
-
-        CarBodyModel carBodyModel = new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
+        CarBodyModel carBodyModel =
+                new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
 
         ArgumentCaptor<CarBodyModel> argumentCaptor = ArgumentCaptor.forClass(CarBodyModel.class);
         when(carService.upadateCar(anyString(), argumentCaptor.capture()))
