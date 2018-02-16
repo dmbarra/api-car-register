@@ -4,12 +4,17 @@ import com.car.models.CarBodyModel;
 import com.car.models.EnunCarCategory;
 import com.car.models.response.CarModelResponse;
 import com.car.service.CarService;
+import groovy.lang.Singleton;
+import org.hibernate.mapping.Collection;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -84,7 +89,7 @@ public class CarControllerTest {
 
     @Test
     public void shouldReturnInformationAboutCar() {
-        CarModelResponse value =
+         CarModelResponse value =
                 new CarModelResponse("gol","1999","branco",EnunCarCategory.COMPACT);
 
         when(carService.getCarInformation(anyString())).thenReturn(value);
@@ -92,12 +97,27 @@ public class CarControllerTest {
         ResponseEntity<CarModelResponse> responseEntity = carController.carsReturnSingleCar("1" );
 
         verify(carService, times(1)).getCarInformation("1");
-
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody().getCollor()).isEqualTo("branco");
         assertThat(responseEntity.getBody().getModel()).isEqualTo("gol");
         assertThat(responseEntity.getBody().getYear()).isEqualTo("1999");
         assertThat(responseEntity.getBody().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
 
+    }
+    @Test
+    public void shouldReturnListOfCar() {
+        CarModelResponse value =
+                new CarModelResponse("gol","1999","branco",EnunCarCategory.COMPACT);
+
+        when(carService.getCarsInformation()).thenReturn(Collections.singletonList(value));
+
+        ResponseEntity<List<CarModelResponse>> responseEntity = carController.carsReturnAllCars();
+
+        verify(carService, times(1)).getCarsInformation();
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody().get(0).getCollor()).isEqualTo("branco");
+        assertThat(responseEntity.getBody().get(0).getModel()).isEqualTo("gol");
+        assertThat(responseEntity.getBody().get(0).getYear()).isEqualTo("1999");
+        assertThat(responseEntity.getBody().get(0).getCategory()).isEqualTo(EnunCarCategory.COMPACT);
     }
 }

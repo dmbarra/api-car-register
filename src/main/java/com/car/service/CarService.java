@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.smartcardio.CardException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CarService {
@@ -59,5 +61,9 @@ public class CarService {
             throw new CarException();
         }
         return new CarModelResponse(carRegistered);
+    }
+
+    public List<CarModelResponse> getCarsInformation() {
+        return new ArrayList<>();
     }
 }
