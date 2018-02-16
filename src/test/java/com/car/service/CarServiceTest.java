@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -133,5 +136,22 @@ public class CarServiceTest {
         when(carRepository.findOne(Long.parseLong(carId))).thenReturn(null);
 
         carService.getCarInformation(carId);
+    }
+
+    @Test
+    public void shouldReturnAllCars(){
+        CarRegister carRegister = new CarRegister("gol", "branco","1999", EnunCarCategory.COMPACT);
+
+        when(carRepository.findAll()).thenReturn(Collections.singleton(carRegister));
+
+        List<CarModelResponse> carModelResponse = carService.getCarsInformation();
+
+        verify(carRepository, times(1)).findAll();
+
+        assertThat(carModelResponse.get(0).getYear()).isEqualTo("branco");
+        assertThat(carModelResponse.get(0).getCollor()).isEqualTo("1999");
+        assertThat(carModelResponse.get(0).getModel()).isEqualTo("gol");
+        assertThat(carModelResponse.get(0).getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+
     }
 }

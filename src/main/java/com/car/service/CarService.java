@@ -64,6 +64,8 @@ public class CarService {
     }
 
     public List<CarModelResponse> getCarsInformation() {
-        return new ArrayList<>();
+        List<CarModelResponse> carModelResponses = new ArrayList<>();
+        carRepository.findAll().forEach(car -> carModelResponses.add(new CarModelResponse(car)));
+        return carModelResponses;
     }
 }
