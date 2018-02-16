@@ -1,6 +1,7 @@
 package com.car.models.response;
 
 import com.car.models.EnunCarCategory;
+import com.car.models.repository.CarRegister;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,13 @@ public class CarModelResponse {
     private String year;
     private String collor;
     private EnunCarCategory category;
+
+    public CarModelResponse(CarRegister carRegistered) {
+        this.model = carRegistered.getModel();
+        this.year = carRegistered.getYear();
+        this.collor = carRegistered.getCollor();
+        this.category = carRegistered.getCategory();
+    }
 
     public ResponseEntity<CarModelResponse> transformResponseEntuty(HttpStatus status) {
         return new ResponseEntity<>(this, status);

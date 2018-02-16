@@ -1,8 +1,10 @@
 package com.car.service;
 
+import com.car.exception.CarException;
 import com.car.models.CarBodyModel;
 import com.car.models.EnunCarCategory;
 import com.car.models.repository.CarRegister;
+import com.car.models.response.CarModelResponse;
 import com.car.repositories.CarRepository;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -105,5 +107,31 @@ public class CarServiceTest {
         ResponseEntity<String> responseEntity = carService.upadateCar("1", carBodyModel);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void shouldReturnCar() {
+        String carId = "1";
+        CarRegister carRegister = new CarRegister("gol", "branco","1999", EnunCarCategory.COMPACT);
+
+        when(carRepository.findOne(Long.parseLong(carId))).thenReturn(carRegister);
+
+        CarModelResponse carModelResponse = carService.getCarInformation(carId);
+
+        verify(carRepository, times(1)).findOne(Long.parseLong(carId));
+
+        assertThat(carModelResponse.getYear()).isEqualTo("branco");
+        assertThat(carModelResponse.getCollor()).isEqualTo("1999");
+        assertThat(carModelResponse.getModel()).isEqualTo("gol");
+        assertThat(carModelResponse.getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+
+    }
+
+    @Test(expectedExceptions = CarException.class)
+    public void shouldReturnExceptionWhenNotFoundCar() {
+        String carId = "1";
+        when(carRepository.findOne(Long.parseLong(carId))).thenReturn(null);
+
+        carService.getCarInformation(carId);
     }
 }

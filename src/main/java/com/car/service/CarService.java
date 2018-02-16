@@ -1,5 +1,6 @@
 package com.car.service;
 
+import com.car.exception.CarException;
 import com.car.models.CarBodyModel;
 import com.car.models.repository.CarRegister;
 import com.car.models.response.CarModelResponse;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import javax.smartcardio.CardException;
 
 @Service
 public class CarService {
@@ -50,7 +53,11 @@ public class CarService {
         }
     }
 
-    public CarModelResponse getCarInformation(String s) {
-        return new CarModelResponse();
+    public CarModelResponse getCarInformation(String cardId) {
+        CarRegister carRegistered = carRepository.findOne(Long.parseLong(cardId));
+        if (carRegistered == null ) {
+            throw new CarException();
+        }
+        return new CarModelResponse(carRegistered);
     }
 }
