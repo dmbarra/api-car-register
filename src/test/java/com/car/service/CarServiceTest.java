@@ -74,12 +74,10 @@ public class CarServiceTest {
                 new CarBodyModel("fiat", "1999", "preto", EnunCarCategory.COMPACT);
 
 
-        ResponseEntity<String> responseEntity = carService.upadateCar(carId, carBodyModel);
+        carService.upadateCar(carId, carBodyModel);
 
         verify(carRepository, times(1)).findOne(Long.parseLong(carId));
         verify(carRepository, times(1)).save(argumentCaptor.capture());
-
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
         assertThat(argumentCaptor.getValue().getId()).isEqualTo(1L);
         assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("preto");
@@ -89,16 +87,13 @@ public class CarServiceTest {
     }
 
 
-    @Test
+    @Test(expectedExceptions = CarException.class)
     public void shouldNotRecordUpdateCarOnDatabase() {
-
         when(carRepository.findOne(1L)).thenReturn(null);
 
         CarBodyModel carBodyModel = new CarBodyModel();
 
-        ResponseEntity<String> responseEntity = carService.upadateCar("1", carBodyModel);
-
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        carService.upadateCar("1", carBodyModel);
     }
 
     @Test

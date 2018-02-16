@@ -1,5 +1,6 @@
 package com.car.controllers;
 
+import com.car.exception.CarException;
 import com.car.models.CarBodyModel;
 import com.car.models.response.CarModelResponse;
 import com.car.service.CarService;
@@ -33,7 +34,8 @@ public class CarController {
     @RequestMapping(value = "/car/{carId}", method = RequestMethod.PUT)
     public ResponseEntity<String> carsUpdate(@PathVariable String carId,
                                              @RequestBody CarBodyModel carBodyModel) {
-        return carService.upadateCar(carId, carBodyModel);
+        carService.upadateCar(carId, carBodyModel);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -48,6 +50,11 @@ public class CarController {
             produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<List<CarModelResponse>> carsReturnAllCars() {
         return new ResponseEntity<>(carService.getCarsInformation(), HttpStatus.OK);
+    }
+
+    @ExceptionHandler({CarException.class})
+    public ResponseEntity<String> handleException() {
+        return new ResponseEntity<>("Errou!!!!", HttpStatus.BAD_REQUEST);
     }
 
     private ResponseEntity<String> transformIntoEntity(Long result, HttpStatus status) {

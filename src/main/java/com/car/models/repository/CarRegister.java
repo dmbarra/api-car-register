@@ -4,12 +4,14 @@ package com.car.models.repository;
 import com.car.models.CarBodyModel;
 import com.car.models.EnunCarCategory;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
 @Entity
 @Table(name = "car_register", schema = "car_schema")
+@NoArgsConstructor
 public class CarRegister {
 
     @Id
@@ -23,25 +25,10 @@ public class CarRegister {
     private String collor;
     private EnunCarCategory category;
 
-    protected CarRegister() {
-    }
-
     public CarRegister(String model,
                        String year,
                        String collor,
                        EnunCarCategory category) {
-        this.model = model;
-        this.year = year;
-        this.collor = collor;
-        this.category = category;
-    }
-
-    public CarRegister(Long id, String model,
-                       String year,
-                       String collor,
-                       EnunCarCategory category) {
-
-        this.id = id;
         this.model = model;
         this.year = year;
         this.collor = collor;
@@ -53,5 +40,14 @@ public class CarRegister {
         this.model = carBodyModel.getModel();
         this.category = carBodyModel.getCategory();
         this.year = carBodyModel.getYear();
+    }
+
+    public CarRegister(String carId, CarBodyModel carBodyModel) {
+        this.id = Long.valueOf(carId);
+        this.collor = carBodyModel.getCollor();
+        this.model = carBodyModel.getModel();
+        this.category = carBodyModel.getCategory();
+        this.year = carBodyModel.getYear();
+
     }
 }

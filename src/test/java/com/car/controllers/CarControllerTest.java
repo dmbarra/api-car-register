@@ -62,20 +62,11 @@ public class CarControllerTest {
         CarBodyModel carBodyModel =
                 new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
 
-        ArgumentCaptor<CarBodyModel> argumentCaptor = ArgumentCaptor.forClass(CarBodyModel.class);
-        when(carService.upadateCar(anyString(), argumentCaptor.capture()))
-                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
-
         ResponseEntity<String> responseEntity = carController.carsUpdate("1", carBodyModel);
 
         verify(carService, times(1)).upadateCar("1", carBodyModel);
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("branco");
-        assertThat(argumentCaptor.getValue().getModel()).isEqualTo("gol");
-        assertThat(argumentCaptor.getValue().getYear()).isEqualTo("1999");
-        assertThat(argumentCaptor.getValue().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 
     @Test

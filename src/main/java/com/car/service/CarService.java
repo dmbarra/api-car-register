@@ -6,11 +6,8 @@ import com.car.models.repository.CarRegister;
 import com.car.models.response.CarModelResponse;
 import com.car.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.smartcardio.CardException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,21 +28,14 @@ public class CarService {
         return carRegisterDb.getId();
     }
 
-    public ResponseEntity<String> upadateCar(String carId, CarBodyModel carBodyModel) {
+    public void upadateCar(String carId, CarBodyModel carBodyModel) {
+        CarRegister repositoryOne = carRepository.findOne(Long.parseLong(carId));
 
-        if (carRepository.findOne(Long.parseLong(carId)) == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+        if (repositoryOne == null) {
+            throw new CarException();
         } else {
-
-            CarRegister carUpdated = new CarRegister(Long.parseLong(carId), carBodyModel.getModel(),
-                    carBodyModel.getYear(),
-                    carBodyModel.getCollor(),
-                    carBodyModel.getCategory());
-
+            CarRegister carUpdated = new CarRegister(carId, carBodyModel);
             carRepository.save(carUpdated);
-
-            return new ResponseEntity<>(new String(), HttpStatus.NO_CONTENT);
         }
     }
 
