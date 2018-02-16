@@ -102,8 +102,8 @@ public class CarControllerTest {
         assertThat(responseEntity.getBody().getModel()).isEqualTo("gol");
         assertThat(responseEntity.getBody().getYear()).isEqualTo("1999");
         assertThat(responseEntity.getBody().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
-
     }
+
     @Test
     public void shouldReturnListOfCar() {
         CarModelResponse value =
@@ -118,6 +118,7 @@ public class CarControllerTest {
         assertThat(responseEntity.getBody().get(0).getCollor()).isEqualTo("branco");
         assertThat(responseEntity.getBody().get(0).getModel()).isEqualTo("gol");
         assertThat(responseEntity.getBody().get(0).getYear()).isEqualTo("1999");
-        assertThat(responseEntity.getBody().get(0).getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+        assertThat(responseEntity.getBody().get(0).getCategory())
+                .isEqualTo(EnunCarCategory.COMPACT);
     }
 }

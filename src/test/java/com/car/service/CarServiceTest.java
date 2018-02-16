@@ -139,7 +139,7 @@ public class CarServiceTest {
     }
 
     @Test
-    public void shouldReturnAllCars(){
+    public void shouldReturnAllCars() {
         CarRegister carRegister = new CarRegister("gol", "branco","1999", EnunCarCategory.COMPACT);
 
         when(carRepository.findAll()).thenReturn(Collections.singleton(carRegister));
