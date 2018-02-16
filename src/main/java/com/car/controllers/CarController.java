@@ -31,7 +31,9 @@ public class CarController {
         return carService.upadateCar(carId, carBodyModel);
     }
 
-    public ResponseEntity<CarModelResponse> carsReturnSingleCar(String carId) {
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/car/{carId}", method = RequestMethod.GET)
+    public ResponseEntity<CarModelResponse> carsReturnSingleCar(@PathVariable String carId) {
         return carService.getCarInformation(carId).transformResponseEntuty(HttpStatus.OK);
     }
 }
