@@ -17,9 +17,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class CarPostControllerTest {
+public class CarControllerTest {
 
-    private CarPostController carPostController;
+    private CarController carController;
 
     @Mock
     private CarService carService;
@@ -27,7 +27,7 @@ public class CarPostControllerTest {
     @BeforeClass
     public void setUp() {
         initMocks(this);
-        carPostController = new CarPostController(carService);
+        carController = new CarController(carService);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class CarPostControllerTest {
         when(carService.registerNewCar(argumentCaptor.capture()))
                 .thenReturn(new ResponseEntity<>("{ id = 123 }", HttpStatus.CREATED));
 
-        ResponseEntity<String> responseEntity = carPostController.carsCreation(carBodyModel);
+        ResponseEntity<String> responseEntity = carController.carsCreation(carBodyModel);
 
         verify(carService, times(1)).registerNewCar(carBodyModel);
 
@@ -69,7 +69,7 @@ public class CarPostControllerTest {
         when(carService.upadateCar(anyString(), argumentCaptor.capture()))
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
-        ResponseEntity<String> responseEntity = carPostController.carsUpdate("1", carBodyModel);
+        ResponseEntity<String> responseEntity = carController.carsUpdate("1", carBodyModel);
 
         verify(carService, times(1)).upadateCar("1", carBodyModel);
 

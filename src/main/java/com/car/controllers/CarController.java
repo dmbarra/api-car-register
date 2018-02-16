@@ -8,12 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class CarPostController {
+public class CarController {
 
     CarService carService;
 
     @Autowired
-    public CarPostController(CarService carService) {
+    public CarController(CarService carService) {
         this.carService = carService;
     }
 
