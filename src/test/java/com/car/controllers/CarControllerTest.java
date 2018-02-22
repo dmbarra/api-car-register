@@ -69,7 +69,7 @@ public class CarControllerTest {
     @Test
     public void shouldReturnInformationAboutCar() {
          CarModelResponse value =
-                new CarModelResponse("gol","1999","branco",EnunCarCategory.COMPACT);
+                new CarModelResponse(1, "gol","1999","branco",EnunCarCategory.COMPACT);
 
         when(carService.getCarInformation(anyString())).thenReturn(value);
 
@@ -84,7 +84,7 @@ public class CarControllerTest {
     @Test
     public void shouldReturnListOfCar() {
         CarModelResponse value =
-                new CarModelResponse("gol","1999","branco",EnunCarCategory.COMPACT);
+                new CarModelResponse(1, "gol","1999","branco",EnunCarCategory.COMPACT);
 
         when(carService.getCarsInformation()).thenReturn(Collections.singletonList(value));
 

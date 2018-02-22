@@ -8,8 +8,6 @@ import com.car.models.response.CarModelResponse;
 import com.car.repositories.CarRepository;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -106,7 +104,9 @@ public class CarServiceTest {
 
         verify(carRepository, times(1)).findOne(Long.parseLong(carId));
 
-        assertThat(carModelResponse).isEqualToComparingFieldByField(carRegister);
+        assertThat(carModelResponse)
+                .isEqualToComparingOnlyGivenFields(carRegister,
+                        "model", "year", "collor", "category");
     }
 
     @Test(expectedExceptions = CarException.class)
@@ -127,6 +127,8 @@ public class CarServiceTest {
 
         verify(carRepository, times(1)).findAll();
 
-        assertThat(carModelResponse.get(0)).isEqualToComparingFieldByField(carRegister);
+        assertThat(carModelResponse.get(0))
+                .isEqualToComparingOnlyGivenFields(carRegister,
+                        "model", "year", "collor", "category");
     }
 }

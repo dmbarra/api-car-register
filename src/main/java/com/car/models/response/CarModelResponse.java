@@ -13,12 +13,14 @@ import org.springframework.http.ResponseEntity;
 @AllArgsConstructor
 public class CarModelResponse {
 
+    private int id;
     private String model;
     private String year;
     private String collor;
     private EnunCarCategory category;
 
     public CarModelResponse(CarRegister carRegistered) {
+        this.id = carRegistered.getId() != null ? carRegistered.getId().intValue() : 0;
         this.model = carRegistered.getModel();
         this.year = carRegistered.getYear();
         this.collor = carRegistered.getCollor();
