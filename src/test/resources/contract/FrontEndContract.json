@@ -1,0 +1,51 @@
+{
+  "provider" : {
+    "name" : "api-car-register"
+  },
+  "consumer" : {
+    "name" : "front-car.register"
+  },
+  "interactions" : [ {
+    "providerState" : "Exist car register on system",
+    "description" : "Verify if response has all body components",
+    "request" : {
+      "method" : "GET",
+      "path" : "/car/1"
+    },
+    "response" : {
+      "status" : 200,
+      "body" : {
+        "category": "COMPACT",
+        "collor": "branco",
+        "id": 1,
+        "model": "bunito",
+        "year": "1981"
+        }
+      },
+      "matchingRules" : {
+        "$.body.collor" : {
+          "regex" : "[a-zA-Z]+"
+        },
+        "$.body.model" : {
+          "regex" : "[a-zA-Z]+"
+        },
+        "$.body.category" : {
+          "regex" : "[a-zA-Z]+"
+        },
+        "$.body.id" : {
+          "regex" : "[0-9]{2}\\.[0-9]{2}"
+        },
+        "$.body.year" : {
+          "regex" : "[0-9]{2}\\.[0-9]{2}"
+        }
+      }
+  } ],
+  "metadata" : {
+    "pact-specification" : {
+      "version" : "1.0.0"
+    },
+    "pact-jvm" : {
+      "version" : "2.2.14"
+    }
+  }
+}
