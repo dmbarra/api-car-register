@@ -23,23 +23,20 @@ public class CarService {
         return new Car(carRepository.save(new CarEntity(car)));
     }
 
-    public Car upadateCar(String carId, Car car) {
-        CarEntity repositoryOne = carRepository.findOne(Long.parseLong(carId));
+    public Car upadateCar(String carId, Car car) throws CarException {
 
-        if (repositoryOne == null) {
-            throw new CarException();
-        } else {
-            CarEntity carUpdated = new CarEntity(carId, car);
-            return new Car(carRepository.save(carUpdated));
+        if (carRepository.exists(Long.valueOf(carId))) {
+            return new Car(carRepository.save(new CarEntity(carId, car)));
         }
+        throw new CarException();
     }
 
-    public Car getCarInformation(String cardId) {
-        CarEntity carRegistered = carRepository.findOne(Long.parseLong(cardId));
-        if (carRegistered == null) {
-            throw new CarException();
+    public Car getCarInformation(String carId) {
+
+        if (carRepository.exists(Long.valueOf(carId))) {
+            return new Car(carRepository.findOne(Long.valueOf(carId)));
         }
-        return new Car(carRegistered);
+        throw new CarException();
     }
 
     public Cars getCarsInformation() {
