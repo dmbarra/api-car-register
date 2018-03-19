@@ -9,6 +9,8 @@ import com.car.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static java.lang.Long.valueOf;
+
 @Service
 public class CarService {
 
@@ -25,7 +27,7 @@ public class CarService {
 
     public Car upadateCar(String carId, Car car) throws CarException {
 
-        if (carRepository.exists(Long.valueOf(carId))) {
+        if (carRepository.exists(valueOf(carId))) {
             return new Car(carRepository.save(new CarEntity(carId, car)));
         }
         throw new CarException();
@@ -33,8 +35,8 @@ public class CarService {
 
     public Car getCarInformation(String carId) {
 
-        if (carRepository.exists(Long.valueOf(carId))) {
-            return new Car(carRepository.findOne(Long.valueOf(carId)));
+        if (carRepository.exists(valueOf(carId))) {
+            return new Car(carRepository.findOne(valueOf(carId)));
         }
         throw new CarException();
     }

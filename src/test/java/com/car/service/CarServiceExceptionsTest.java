@@ -18,7 +18,6 @@ public class CarServiceExceptionsTest {
     @Mock
     private CarRepository carRepository;
 
-
     @BeforeMethod
     public void setUp() {
         initMocks(this);
