@@ -1,16 +1,21 @@
 package com.car.controllers;
 
 import com.car.exception.CarException;
-import com.car.models.CarBodyModel;
-import com.car.models.response.CarModelResponse;
+import com.car.models.response.Car;
+import com.car.models.response.Cars;
 import com.car.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CarController {
@@ -24,41 +29,31 @@ public class CarController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/car", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> carsCreation(@RequestBody CarBodyModel carBodyModel) {
-        Long result = carService.registerNewCar(carBodyModel);
-       return transformIntoEntity(result, HttpStatus.CREATED);
+    public Car carsCreation(@RequestBody Car car) {
+        return carService.registerNewCar(car);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/car/{carId}")
-    public ResponseEntity<String> carsUpdate(@PathVariable String carId,
-                                             @RequestBody CarBodyModel carBodyModel) {
-        carService.upadateCar(carId, carBodyModel);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public Car carsUpdate(@PathVariable String carId,
+                          @RequestBody Car car) {
+        return carService.upadateCar(carId, car);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/car/{carId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CarModelResponse> carsReturnSingleCar(@PathVariable String carId) {
-        return carService.getCarInformation(carId).transformResponseEntuty(HttpStatus.OK);
+    public Car carsReturnSingleCar(@PathVariable String carId) {
+        return carService.getCarInformation(carId);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/car/", produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<List<CarModelResponse>> carsReturnAllCars() {
-        return new ResponseEntity<>(carService.getCarsInformation(), HttpStatus.OK);
+    @GetMapping(value = "/car/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Cars carsReturnAllCars() {
+        return carService.getCarsInformation();
     }
 
     @ExceptionHandler({CarException.class})
     public ResponseEntity<String> handleException() {
         return new ResponseEntity<>("Errou!!!!", HttpStatus.BAD_REQUEST);
-    }
-
-    private ResponseEntity<String> transformIntoEntity(Long result, HttpStatus status) {
-        return new ResponseEntity<>(new String()
-                .concat("{")
-                .concat("id:")
-                .concat(result.toString()
-                .concat("}")), status);
     }
 }

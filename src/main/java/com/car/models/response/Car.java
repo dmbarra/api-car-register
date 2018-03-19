@@ -1,17 +1,15 @@
 package com.car.models.response;
 
 import com.car.models.EnunCarCategory;
-import com.car.models.repository.CarRegister;
+import com.car.models.repository.CarEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarModelResponse {
+public class Car {
 
     private int id;
     private String model;
@@ -19,7 +17,7 @@ public class CarModelResponse {
     private String collor;
     private EnunCarCategory category;
 
-    public CarModelResponse(CarRegister carRegistered) {
+    public Car(CarEntity carRegistered) {
         this.id = carRegistered.getId() != null ? carRegistered.getId().intValue() : 0;
         this.model = carRegistered.getModel();
         this.year = carRegistered.getYear();
@@ -27,7 +25,10 @@ public class CarModelResponse {
         this.category = carRegistered.getCategory();
     }
 
-    public ResponseEntity<CarModelResponse> transformResponseEntuty(HttpStatus status) {
-        return new ResponseEntity<>(this, status);
+    public Car(String model, String year, String collor, EnunCarCategory category) {
+        this.model = model;
+        this.year = year;
+        this.collor = collor;
+        this.category = category;
     }
 }

@@ -1,10 +1,9 @@
 package com.car.service;
 
 import com.car.exception.CarException;
-import com.car.models.CarBodyModel;
 import com.car.models.EnunCarCategory;
-import com.car.models.repository.CarRegister;
-import com.car.models.response.CarModelResponse;
+import com.car.models.repository.CarEntity;
+import com.car.models.response.Car;
 import com.car.repositories.CarRepository;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -34,23 +33,23 @@ public class CarServiceTest {
 
     @Test
     public void shouldRecordNewCarOnDatabase() {
-        ArgumentCaptor<CarRegister> argumentCaptor = ArgumentCaptor.forClass(CarRegister.class);
+        ArgumentCaptor<CarEntity> argumentCaptor = ArgumentCaptor.forClass(CarEntity.class);
 
-        CarRegister carRegister = mock(CarRegister.class);
+        CarEntity carEntity = mock(CarEntity.class);
 
-        when(carRegister.getId()).thenReturn(1L);
+        when(carEntity.getId()).thenReturn(1L);
 
         when(carRepository.save(argumentCaptor.capture()))
-                .thenReturn(carRegister);
+                .thenReturn(carEntity);
 
-        CarBodyModel carBodyModel =
-                new CarBodyModel("gol", "1999", "branco", EnunCarCategory.COMPACT);
+        Car carRequest =
+                new Car("gol", "1999", "branco", EnunCarCategory.COMPACT);
 
-        Long responseEntity = carService.registerNewCar(carBodyModel);
+        Car car = carService.registerNewCar(carRequest);
 
         verify(carRepository, times(1)).save(argumentCaptor.capture());
 
-        assertThat(responseEntity).isEqualTo(1L);
+        assertThat(car.getId()).isEqualTo(1);
 
         assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("branco");
         assertThat(argumentCaptor.getValue().getModel()).isEqualTo("gol");
@@ -61,26 +60,22 @@ public class CarServiceTest {
     @Test
     public void shouldRecordUpdateCarOnDatabase() {
 
-        ArgumentCaptor<CarRegister> argumentCaptor = ArgumentCaptor.forClass(CarRegister.class);
+        ArgumentCaptor<CarEntity> argumentCaptor = ArgumentCaptor.forClass(CarEntity.class);
 
         String carId = "1";
-        CarRegister carRegister = new CarRegister("gol", "branco","1999", EnunCarCategory.COMPACT);
+        CarEntity carEntity = new CarEntity(1L,"gol", "branco","1999", EnunCarCategory.COMPACT);
 
-        when(carRepository.findOne(Long.parseLong(carId))).thenReturn(carRegister);
+        when(carRepository.findOne(Long.parseLong(carId))).thenReturn(carEntity);
 
-        CarBodyModel carBodyModel =
-                new CarBodyModel("fiat", "1999", "preto", EnunCarCategory.COMPACT);
+        Car car = new Car(1,"fiat", "1999", "preto", EnunCarCategory.COMPACT);
+        when(carRepository.save(argumentCaptor.capture())).thenReturn(carEntity);
 
-        carService.upadateCar(carId, carBodyModel);
+        carService.upadateCar(carId, car);
 
         verify(carRepository, times(1)).findOne(Long.parseLong(carId));
         verify(carRepository, times(1)).save(argumentCaptor.capture());
 
-        assertThat(argumentCaptor.getValue().getId()).isEqualTo(1L);
-        assertThat(argumentCaptor.getValue().getCollor()).isEqualTo("preto");
-        assertThat(argumentCaptor.getValue().getModel()).isEqualTo("fiat");
-        assertThat(argumentCaptor.getValue().getYear()).isEqualTo("1999");
-        assertThat(argumentCaptor.getValue().getCategory()).isEqualTo(EnunCarCategory.COMPACT);
+        assertThat(new Car(argumentCaptor.getValue())).isEqualToComparingFieldByField(car);
     }
 
 
@@ -88,24 +83,24 @@ public class CarServiceTest {
     public void shouldNotRecordUpdateCarOnDatabase() {
         when(carRepository.findOne(1L)).thenReturn(null);
 
-        CarBodyModel carBodyModel = new CarBodyModel();
+        Car car = new Car();
 
-        carService.upadateCar("1", carBodyModel);
+        carService.upadateCar("1", car);
     }
 
     @Test
     public void shouldReturnCar() {
         String carId = "1";
-        CarRegister carRegister = new CarRegister("gol", "branco","1999", EnunCarCategory.COMPACT);
+        CarEntity carEntity = new CarEntity("gol", "branco","1999", EnunCarCategory.COMPACT);
 
-        when(carRepository.findOne(Long.parseLong(carId))).thenReturn(carRegister);
+        when(carRepository.findOne(Long.parseLong(carId))).thenReturn(carEntity);
 
-        CarModelResponse carModelResponse = carService.getCarInformation(carId);
+        Car car = carService.getCarInformation(carId);
 
         verify(carRepository, times(1)).findOne(Long.parseLong(carId));
 
-        assertThat(carModelResponse)
-                .isEqualToComparingOnlyGivenFields(carRegister,
+        assertThat(car)
+                .isEqualToComparingOnlyGivenFields(carEntity,
                         "model", "year", "collor", "category");
     }
 
@@ -119,16 +114,16 @@ public class CarServiceTest {
 
     @Test
     public void shouldReturnAllCars() {
-        CarRegister carRegister = new CarRegister("gol", "branco","1999", EnunCarCategory.COMPACT);
+        CarEntity carEntity = new CarEntity("gol", "branco","1999", EnunCarCategory.COMPACT);
 
-        when(carRepository.findAll()).thenReturn(Collections.singleton(carRegister));
+        when(carRepository.findAll()).thenReturn(Collections.singleton(carEntity));
 
-        List<CarModelResponse> carModelResponse = carService.getCarsInformation();
+        List<Car> car = carService.getCarsInformation();
 
         verify(carRepository, times(1)).findAll();
 
-        assertThat(carModelResponse.get(0))
-                .isEqualToComparingOnlyGivenFields(carRegister,
+        assertThat(car.get(0))
+                .isEqualToComparingOnlyGivenFields(carEntity,
                         "model", "year", "collor", "category");
     }
 }

@@ -3,7 +3,7 @@ package component
 import com.car.CarsApi
 import com.car.models.CarBodyModel
 import com.car.models.EnunCarCategory
-import com.car.models.repository.CarRegister
+import com.car.models.repository.CarEntity
 import com.car.repositories.CarRepository
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -50,7 +50,7 @@ class CarTest extends Specification{
     @Test
     def 'should return status no content when update register'() {
         given:('I have a car registed')
-        def carRegister = new CarRegister("gol", "branco", "1999", EnunCarCategory.PICKUP)
+        def carRegister = new CarEntity("gol", "branco", "1999", EnunCarCategory.PICKUP)
         carRepository.save(carRegister)
 
         when:('I send car for update information')
