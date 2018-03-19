@@ -35,6 +35,4 @@ public class CarEntityTest {
         assertThat(carEntity.getCollor()).isEqualTo(carEntity.getCollor());
         assertThat(carEntity.getCategory()).isEqualTo(car.getCategory());
     }
-
-
 }

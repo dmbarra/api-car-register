@@ -34,16 +34,6 @@ public class CarEntity {
     private String collor;
     private EnunCarCategory category;
 
-    public CarEntity(String model,
-                     String year,
-                     String collor,
-                     EnunCarCategory category) {
-        this.model = model;
-        this.year = year;
-        this.collor = collor;
-        this.category = category;
-    }
-
     public CarEntity(Car car) {
         this.id = valueOf((car.getId() > 0) ? car.getId() : 0);
         this.collor = car.getCollor();

@@ -17,12 +17,12 @@ public class Car {
     private String collor;
     private EnunCarCategory category;
 
-    public Car(CarEntity carRegistered) {
-        this.id = carRegistered.getId() != null ? carRegistered.getId().intValue() : 0;
-        this.model = carRegistered.getModel();
-        this.year = carRegistered.getYear();
-        this.collor = carRegistered.getCollor();
-        this.category = carRegistered.getCategory();
+    public Car(CarEntity carEntity) {
+        this.id = carEntity.getId() != null ? carEntity.getId().intValue() : 0;
+        this.model = carEntity.getModel();
+        this.year = carEntity.getYear();
+        this.collor = carEntity.getCollor();
+        this.category = carEntity.getCategory();
     }
 
     public Car(String model, String year, String collor, EnunCarCategory category) {
