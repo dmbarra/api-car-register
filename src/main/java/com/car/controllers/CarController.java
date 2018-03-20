@@ -47,7 +47,7 @@ public class CarController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/car/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/cars", produces = MediaType.APPLICATION_JSON_VALUE)
     public Cars carsReturnAllCars() {
         return carService.getCarsInformation();
     }
