@@ -1,7 +1,7 @@
 package com.car.models.repository;
 
 import com.car.models.EnunCarCategory;
-import com.car.models.response.Car;
+import com.car.models.Car;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;

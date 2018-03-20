@@ -1,4 +1,4 @@
-package com.car.models.response;
+package com.car.models;
 
 import com.car.models.repository.CarsEntities;
 import lombok.Getter;

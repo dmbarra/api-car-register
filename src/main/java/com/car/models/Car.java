@@ -1,4 +1,4 @@
-package com.car.models.response;
+package com.car.models;
 
 import com.car.models.EnunCarCategory;
 import com.car.models.repository.CarEntity;

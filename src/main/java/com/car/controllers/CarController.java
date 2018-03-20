@@ -1,8 +1,8 @@
 package com.car.controllers;
 
 import com.car.exception.CarException;
-import com.car.models.response.Car;
-import com.car.models.response.Cars;
+import com.car.models.Car;
+import com.car.models.Cars;
 import com.car.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
