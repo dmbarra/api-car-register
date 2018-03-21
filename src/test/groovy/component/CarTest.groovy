@@ -136,8 +136,5 @@ class CarTest extends Specification{
         then:('I show the status bad reuquest')
         response.statusCode == HttpStatus.BAD_REQUEST
     }
-
-
-
 }
 

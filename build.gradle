@@ -10,7 +10,13 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.owasp:dependency-check-gradle:1.4.5")
 		classpath('org.flywaydb:flyway-gradle-plugin:3.1')
+		classpath("info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.2.4")
+
 	}
+}
+
+plugins {
+    id 'info.solidsoft.pitest' version '1.1.0'
 }
 
 defaultTasks 'clean', 'test', 'build'
@@ -35,6 +41,15 @@ targetCompatibility = 1.8
 repositories {
 	maven { url "https://repo.spring.io/libs-release" }
 	mavenCentral()
+}
+
+pitest {
+	pitestVersion = "1.2.4"
+	targetClasses = ["com.car.*"]
+	timestampedReports = false
+	excludedMethods = ["equals", "toString", "hashCode", "canEqual", "afterPropertiesSet"]
+	avoidCallsTo = ["java.util.logging", "org.apache.log4j", "org.slf4j", "org.apache.commons.logging"]
+	outputFormats = ["XML", "HTML"]
 }
 
 dependencyCheck {
